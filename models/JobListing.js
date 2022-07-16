@@ -33,6 +33,12 @@ jobSchema = new mongoose.Schema({
     jobIncentives: {
         type: String,
         required: true
+    },
+    jobStatus: {
+        type: String,
+        enum: ['Active', 'Closed'],
+        required: true,
+        default: 'Active'
     }
 })
 
