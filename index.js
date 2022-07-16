@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config();
 
+const jobListing = require('./routes/jobListing')
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,8 +29,9 @@ mongoose
   .then(() => console.log('Database connected successfully'))
   .catch((err) => console.log(err));
 
+app.use('/api/listings', jobListing)
 
-  const port = process.env.PORT || 7000;
+const port = process.env.PORT || 7000;
 
 app.listen(port,  () => {
     console.log('Server running on port ' + port)
