@@ -1,45 +1,9 @@
 const mongoose = require('mongoose')
 
 const jobApplicationSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    middleName: {
-        type: String,
-        required: true,
-        default: ''
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    city: {
-        type: String,
-        required: true
-    },
-    province: {
-        type: String,
-        required: true
-    },
-    postCode: {
-        type: String,
-        required: true
-    },
-    country: {
-        type: String,
+    applicantID:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'applicant',
         required: true
     },
     resume: {
@@ -51,8 +15,11 @@ const jobApplicationSchema = new mongoose.Schema({
         required: true
     },
     applicationStatus: {
-        type: String,
-        enum: ['Shortlisted', 'Rejected', 'Contacted'],
+        type: {
+            status: {type: String, enum: ['Shortlisted', 'Rejected', 'Contacted', 'New']},
+            by: { type: String}
+        },
+        default:{status:'New', by: ''},
         required: true
     },
     jobRef: {
