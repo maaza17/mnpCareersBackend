@@ -9,7 +9,11 @@ jobSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    jobLocation: {
+    jobCountry: {
+        type: String,
+        required: true
+    },
+    jobCity: {
         type: String,
         required: true
     },
@@ -37,7 +41,7 @@ jobSchema = new mongoose.Schema({
     jobStatus: {
         type: String,
         enum: ['Active', 'Closed'],
-        required: true,
+        required: false,
         default: 'Active'
     }
 })

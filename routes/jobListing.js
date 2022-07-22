@@ -68,7 +68,6 @@ router.post('/getClosedJobs', (req, res) => {
 })
 
 router.post('/addNewJob', (req, res) => {
-
     let newJob = new jobModel(req.body.jobListing)
     newJob.save((err, doc) => {
         if(err){
