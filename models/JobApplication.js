@@ -17,9 +17,9 @@ const jobApplicationSchema = new mongoose.Schema({
     applicationStatus: {
         type: {
             status: {type: String, enum: ['Shortlisted', 'Rejected', 'Contacted', 'New']},
-            by: { type: String}
+            by: { type: mongoose.Schema.ObjectId, ref:'admin'}
         },
-        default:{status:'New', by: ''},
+        default:{status:'New', by: null},
         required: true
     },
     jobRef: {

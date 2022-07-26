@@ -4,6 +4,8 @@ const compression = require('compression')
 require("dotenv").config();
 
 const jobListing = require('./routes/jobListing')
+const jobApplication = require('./routes/jobApplication')
+const adminRoute = require('./routes/admin/admin')
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -35,7 +37,9 @@ mongoose
   .then(() => console.log('Database connected successfully'))
   .catch((err) => console.log(err));
 
+app.use('/api/admin', adminRoute)
 app.use('/api/listings', jobListing)
+app.use('/api/applications', jobApplication)
 
 const port = process.env.PORT || 7000;
 

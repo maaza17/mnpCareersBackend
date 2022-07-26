@@ -9,7 +9,7 @@ router.post('/loginAdmin', (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
-    const { errors, isValid } = validateAdminLoginInput(email, password);
+    const { errors, isValid } = validateAdminLoginInput({email, password});
 
     // Check validation
     console.log('input validation')
@@ -33,6 +33,7 @@ router.post('/loginAdmin', (req, res) => {
                 if(isMatch){
                     console.log('admin password match')
                     const payload = {
+                        id: admin._id,
                         email: admin.email,
                         name: admin.name
                     }
@@ -76,7 +77,7 @@ router.post('/registerAdmin', (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
-    const { errors, isValid } = validateAdminRegisterInput(email, password)
+    const { errors, isValid } = validateAdminRegisterInput({name, email, password})
 
     // Check validation
     console.log('input validation')
@@ -95,9 +96,9 @@ router.post('/registerAdmin', (req, res) => {
     })
 
     bcrypt.genSalt(10, (err, salt) => {
-        console.log('gen salt error')
+        // console.log('gen salt error')
         bcrypt.hash(newAdmin.password, salt, (err, hash) => {
-            console.log(err, "hashing error")
+            // console.log(err, "hashing error")
             newAdmin.password = hash
             newAdmin.save()
                 .then((doc) => {

@@ -5,6 +5,7 @@ const validateJobApplication = (data) => {
 
     let errors =[]
 
+    data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
     data.firstName = !isEmpty(data.firstName) ? data.firstName : ''
     data.middleName = !isEmpty(data.middleName) ? data.middleName : ''
     data.lastName = !isEmpty(data.lastName) ? data.lastName : ''
@@ -18,6 +19,12 @@ const validateJobApplication = (data) => {
     data.resume = !isEmpty(data.resume) ? data.resume : ''
     data.motivationStatement = !isEmpty(data.motivationStatement) ? data.motivationStatement : ''
 
+    // Check CNIC
+    if(validator.isEmpty(data.CNIC)){
+        errors.push('CNIC number is required!')
+    }
+    
+    
     // Check firstName
     if(validator.isEmpty(data.firstName)){
         errors.push('First name is required!')

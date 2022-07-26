@@ -43,6 +43,19 @@ jobSchema = new mongoose.Schema({
         enum: ['Active', 'Closed'],
         required: false,
         default: 'Active'
+    },
+    dateCreated: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
+    createdBy: {
+        type:{
+            adminID: {type: mongoose.Schema.ObjectId, ref:'admin'},
+            adminName: {type: String}
+        },
+        required: true,
+        default:{adminID:null, adminName:'TestAdmin'}
     }
 })
 
