@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
 const applicationModel = require('../models/JobApplication')
-const applicantModel = require('../models/JobApplicant')
+const applicantModel = require('../models/jobApplicant')
 const validateJobApplication = require('../validation/jobApplicationValidation')
 const jwt = require("jsonwebtoken")
 
