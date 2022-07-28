@@ -38,10 +38,11 @@ router.post('/loginAdmin', (req, res) => {
                         name: admin.name
                     }
     
-                    // sign Token
+                    // sign Token 
                     jwt.sign(payload, process.env.ENCRYPTION_SECRET, {expiresIn: 86400}, (signErr, adminToken) => {
-                        if(admin.admin_sign_err){
+                        if(signErr){
                             console.log('admin token sign error')
+                            console.log(signErr)
                             return res.status.json({
                                 error: true,
                                 message: "An unexpected error occured. Please try again"
