@@ -52,7 +52,8 @@ router.post('/loginAdmin', (req, res) => {
                             return res.status(200).json({
                                 error: false,
                                 token: adminToken,
-                                userType: "Admin"
+                                userType: "Admin",
+                                admin:admin
                               });
                         }
                     })
