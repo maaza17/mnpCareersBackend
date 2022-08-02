@@ -3,44 +3,44 @@ const mongoose = require('mongoose')
 const adminModel = require('../../models/admin/Admin')
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
-const {validateAdminLoginInput, validateAdminRegisterInput} = require('../../validation/adminAuthValidation')
+const { validateAdminLoginInput, validateAdminRegisterInput } = require('../../validation/adminAuthValidation')
 
 router.post('/loginAdmin', (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
-    const { errors, isValid } = validateAdminLoginInput({email, password});
+    const { errors, isValid } = validateAdminLoginInput({ email, password });
 
     // Check validation
     console.log('input validation')
     if (!isValid) {
         return res.status(200).json({
-        error: true,
-        error_message: errors,
-        message: "Input validation failed. Check error messages."
+            error: true,
+            error_message: errors,
+            message: "Please enter a valid email ID and password"
         });
     }
 
-    adminModel.findOne({email: email}, (err, admin) => {
-        if(err){
+    adminModel.findOne({ email: email }, (err, admin) => {
+        if (err) {
             return res.status(200).json({
                 error: true,
-                message: err.message
+                message: "An unexpected error occured. Please try again"
             })
-        } else if(admin){
+        } else if (admin) {
             // compare passwords and token generation here
             bcrypt.compare(password, admin.password).then((isMatch) => {
-                if(isMatch){
+                if (isMatch) {
                     console.log('admin password match')
                     const payload = {
                         id: admin._id,
                         email: admin.email,
                         name: admin.name
                     }
-    
+
                     // sign Token 
-                    jwt.sign(payload, process.env.ENCRYPTION_SECRET, {expiresIn: 86400}, (signErr, adminToken) => {
-                        if(signErr){
+                    jwt.sign(payload, process.env.ENCRYPTION_SECRET, { expiresIn: 86400 }, (signErr, adminToken) => {
+                        if (signErr) {
                             console.log('admin token sign error')
                             console.log(signErr)
                             return res.status.json({
@@ -53,8 +53,8 @@ router.post('/loginAdmin', (req, res) => {
                                 error: false,
                                 token: adminToken,
                                 userType: "Admin",
-                                admin:admin
-                              });
+                                admin: admin
+                            });
                         }
                     })
                 } else {
@@ -62,11 +62,11 @@ router.post('/loginAdmin', (req, res) => {
                         error: true,
                         message: "Incorrect password. Please retry."
                     })
-                } 
+                }
             })
         } else {
             return res.status(200).json({
-                error: false,
+                error: true,
                 message: 'Admin does not exist. Please recheck your credentials'
             })
         }
@@ -79,15 +79,15 @@ router.post('/registerAdmin', (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
-    const { errors, isValid } = validateAdminRegisterInput({name, email, password})
+    const { errors, isValid } = validateAdminRegisterInput({ name, email, password })
 
     // Check validation
     console.log('input validation')
     if (!isValid) {
         return res.status(200).json({
-        error: true,
-        error_message: errors,
-        message: "Input validation failed. Check error messages."
+            error: true,
+            error_message: errors,
+            message: "Input validation failed. Check error messages."
         })
     }
 

@@ -213,4 +213,57 @@ router.post('/markContacted', (req, res) => {
 
 })
 
+router.post('/getApplicationsByJob', (req, res) => {
+
+    let { isAdmin, id, name } = verifyToken(req.body.token)
+
+    if (!isAdmin) {
+        return res.status(200).json({
+            error: true,
+            message: 'Access denied. Limited for admin(s).'
+        })
+    } else {
+        let jobID = req.body.jobID
+
+        applicationModel.find({jobRef: jobID}, (err, docs) => {
+            if(err){
+                return res.status(200).json({
+                    error: true,
+                    message: err.message
+                })
+            } else if(docs) {
+                
+                docs.forEach(doc => {
+                  
+                    applicantModel.findOne({_id: doc.applicantID}, (appErr, appDoc) => {
+                        if(appErr){
+                            return res.status(200).json({
+                                error: true,
+                                message: appErr.message
+                            })
+                        } else {
+                            doc.applicantObj = appDoc
+                        }
+                    })
+
+                })
+
+                return res.status(200).json({
+                    error: false,
+                    message: "Applications for job opening found.",
+                    data: docs
+                })
+
+            } else {
+                return res.status(200).json({
+                    error: false,
+                    message: 'No applications recieved yet.',
+                    data: []
+                })
+            }
+        })
+    }
+
+})
+
 module.exports = router
