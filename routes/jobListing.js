@@ -93,7 +93,7 @@ router.post('/getClosedJobs', (req, res) => {
 
 router.post('/addNewJob', (req, res) => {
 
-    verifyToken(req.body.token, () => {
+    verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
         const id = item.id;
         const name = item.name;
@@ -129,7 +129,7 @@ router.post('/addNewJob', (req, res) => {
 
 router.post('/editJobListing', (req, res) => {
 
-    verifyToken(req.body.token, () => {
+    verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
         const id = item.id;
         const name = item.name;
