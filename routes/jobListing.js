@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
 const jobModel = require('../models/JobListing')
+const applicationModel = require('../models/JobApplication')
+const applicantModel = require('../models/jobApplicant')
 
 const jwt = require("jsonwebtoken")
 
@@ -276,6 +278,61 @@ router.post('/closeJob', (req, res) => {
         }
     })
 })
+
+
+
+router.post('/getApplicationsByJob', (req, res) => {
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let jobID = req.body.jobID
+            applicationModel.find({ jobRef: jobID }, (err, docs) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else if (docs.length === 0) {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'No applications recieved yet.',
+                        data: []
+                    })
+                } else if (docs.length > 0) {
+                    docs.forEach(doc => {
+                        applicantModel.findOne({ _id: doc.applicantID }, (appErr, appDoc) => {
+                            if (appErr) {
+                                return res.status(200).json({
+                                    error: true,
+                                    message: appErr.message
+                                })
+                            } else { doc.applicantObj = appDoc }
+                        })
+                    })
+                    return res.status(200).json({
+                        error: false,
+                        message: "Applications for job opening found.",
+                        data: docs
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'No data found. Please try again',
+                    })
+                }
+            })
+        }
+    })
+})
+
+
 
 
 module.exports = router
