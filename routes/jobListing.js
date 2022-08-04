@@ -228,8 +228,6 @@ router.post('/openJob', (req, res) => {
     })
 })
 
-//TO BE FIXED
-//All exisiting objects have Location in it but Model has City and Country
 router.post('/closeJob', (req, res) => {
     verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
@@ -278,6 +276,16 @@ router.post('/closeJob', (req, res) => {
         }
     })
 })
+
+// router.post('/haris', (req, res) => {
+//     jobModel.find({}).remove((err, docs) => {
+//         return res.status(200).json({
+//             error: false,
+//             docs: docs,
+//             message: 'Done!'
+//         })
+//     });
+// })
 
 
 

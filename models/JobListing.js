@@ -9,7 +9,7 @@ jobSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    jobCountry: {
+    jobMode: {
         type: String,
         required: true
     },
