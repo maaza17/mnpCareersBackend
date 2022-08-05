@@ -303,7 +303,7 @@ router.post('getOtherApplicationsByApplicant', (req, res) => {
 })
 
 
-router.post('getApplicant', (req, res) => {
+router.post('/getApplicant', (req, res) => {
 
     verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
@@ -316,7 +316,6 @@ router.post('getApplicant', (req, res) => {
             })
         } else {
             let thisApplicantID = req.body.thisApplicantID
-
             applicantModel.findOne({_id: thisApplicantID}, (err, doc) => {
                 if(err){
                     return res.status(200).json({
