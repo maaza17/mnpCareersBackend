@@ -62,9 +62,9 @@ router.post('/apply', (req, res) => {
             })
         } else if (applicant) {
             // if applicant already exists with no changes
-            if (applicant.firstName === firstName && applicant.lastName === lastName &&
-                applicant.email === email && applicant.phone === phone && applicant.city === city &&
-                applicant.isEmployee === isEmployee) {
+            if (applicant.firstName == firstName && applicant.lastName == lastName &&
+                applicant.email == email && applicant.phone == phone && applicant.city == city &&
+                applicant.isEmployee == isEmployee) {
 
                 // create jobApplication with existing applicant
                 newApplication = new applicationModel({
@@ -259,6 +259,72 @@ router.post('/markContacted', (req, res) => {
                     return res.status(200).json({
                         error: false,
                         message: "Application marked as contacted successfully.",
+                        data: doc
+                    })
+                }
+            })
+        }
+    })
+})
+
+router.post('getOtherApplicationsByApplicant', (req, res) => {
+
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let thisApplicantID = req.body.thisApplicantID
+            let thisApplicationID = req.body.thisApplicationID
+
+            applicationModel.find({_id: {$ne: thisApplicationID}, applicantID: thisApplicantID}, (err, docs) => {
+                if(err){
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else{
+                    return res.status(200).json({
+                        error: false,
+                        message: String(docs.length) + ' applications found for this applicant!',
+                        data: docs
+                    })
+                }
+            })
+        }
+    })
+})
+
+
+router.post('getApplicant', (req, res) => {
+
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let thisApplicantID = req.body.thisApplicantID
+
+            applicantModel.findOne({_id: thisApplicantID}, (err, doc) => {
+                if(err){
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else{
+                    return res.status(200).json({
+                        error: false,
+                        message: 'Applicant found!',
                         data: doc
                     })
                 }

@@ -26,7 +26,10 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     isEmployee: {
-        type: { isTrue: Boolean, employeeID: String },
+        type: { 
+            isTrue: Boolean,
+            employeeID: {type: mongoose.Schema.ObjectId, ref: 'employee'}
+        },
         required: true,
         default: { isTrue: false, employeeID: null }
     }
