@@ -33,11 +33,13 @@ router.post('/apply', (req, res) => {
             "isTrue": false,
             "employeeID": null
         }
+    }else{
+        isEmployee=req.body.isEmployee;
     }
+
     let {
         CNIC, firstName, lastName, email, phone, city, resume, motivationStatement, jobRef
     } = req.body
-    // console.log(req.body.phone)
 
     const { errors, isValid } = validateJobApplication({
         CNIC: CNIC, firstName: firstName, lastName: lastName, email: email,
