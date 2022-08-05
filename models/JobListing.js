@@ -9,17 +9,13 @@ jobSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    jobMode: {
-        type: String,
-        required: true
-    },
     jobCity: {
         type: String,
         required: true
     },
     jobType: {
         type: String,
-        enum: ['Full-Time', 'Part-Time', 'Contractual'],
+        enum: ['Permanent', 'Contractual'],
         required: true
     },
     reqExperience: {
@@ -37,6 +33,11 @@ jobSchema = new mongoose.Schema({
     jobIncentives: {
         type: String,
         required: true
+    },
+    jobSalary: {
+        type: String,
+        required: false,
+        default:"Not Available"
     },
     jobStatus: {
         type: String,

@@ -7,15 +7,14 @@ const validateJobApplication = (data) => {
 
     data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
     data.firstName = !isEmpty(data.firstName) ? data.firstName : ''
-    data.middleName = !isEmpty(data.middleName) ? data.middleName : ''
     data.lastName = !isEmpty(data.lastName) ? data.lastName : ''
     data.email = !isEmpty(data.email) ? data.email : ''
     data.phone = !isEmpty(data.phone) ? data.phone : ''
-    data.address = !isEmpty(data.address) ? data.address : ''
+    // data.address = !isEmpty(data.address) ? data.address : ''
     data.city = !isEmpty(data.city) ? data.city : ''
-    data.province = !isEmpty(data.province) ? data.province : ''
-    data.postCode = !isEmpty(data.postCode) ? data.postCode : ''
-    data.country = !isEmpty(data.country) ? data.country : ''
+    // data.province = !isEmpty(data.province) ? data.province : ''
+    // data.postCode = !isEmpty(data.postCode) ? data.postCode : ''
+    // data.country = !isEmpty(data.country) ? data.country : ''
     data.resume = !isEmpty(data.resume) ? data.resume : ''
     data.motivationStatement = !isEmpty(data.motivationStatement) ? data.motivationStatement : ''
 
@@ -50,9 +49,9 @@ const validateJobApplication = (data) => {
     }
 
     // check address
-    if (validator.isEmpty(data.address)) {
-        errors.push("Address is required")
-    }
+    // if (validator.isEmpty(data.address)) {
+    //     errors.push("Address is required")
+    // }
 
     // check city
     if (validator.isEmpty(data.city)) {
@@ -60,25 +59,31 @@ const validateJobApplication = (data) => {
     }
 
     // check province
-    if (validator.isEmpty(data.province)) {
-        errors.push("Province is required")
-    }
+    // if (validator.isEmpty(data.province)) {
+    //     errors.push("Province is required")
+    // }
 
     // check postCode
-    if (validator.isEmpty(data.postCode)) {
-        errors.push("Post code is required")
-    }
+    // if (validator.isEmpty(data.postCode)) {
+    //     errors.push("Post code is required")
+    // }
 
     // check country
-    if (validator.isEmpty(data.country)) {
-        errors.push("Country is required")
-    }
+    // if (validator.isEmpty(data.country)) {
+    //     errors.push("Country is required")
+    // }
 
     // check resume
     if (validator.isEmpty(data.resume)) {
         errors.push("Resume is required")
     } else if(!validator.isURL(data.resume)){
         errors.push("Resume link error")
+    }
+
+
+    return {
+        errors,
+        isValid: isEmpty(errors)
     }
 
 }

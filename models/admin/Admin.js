@@ -21,7 +21,5 @@ const AdminSchema = new mongoose.Schema({
     }
 })
 
-//Something I(Haris) made to integrate on frontend. Feel free to change/add other details
-
 const adminModel = new mongoose.model('admin', AdminSchema)
 module.exports = adminModel

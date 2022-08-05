@@ -27,15 +27,21 @@ function verifyToken(token, callback) {
 
 router.post('/apply', (req, res) => {
 
+    let isEmployee = null;
+    if (req.body.isEmployee === undefined || req.body.isEmployee === {}) {
+        isEmployee = {
+            "isTrue": false,
+            "employeeID": null
+        }
+    }
     let {
-        CNIC, firstName, middleName, lastName, email, phone, address, city,
-        province, postCode, country, isEmployee, resume, motivationStatement, jobRef
+        CNIC, firstName, lastName, email, phone, city, resume, motivationStatement, jobRef
     } = req.body
+    // console.log(req.body.phone)
 
     const { errors, isValid } = validateJobApplication({
-        CNIC: CNIC, firstName: firstName, middleName: middleName, lastName: lastName, email: email,
-        phone: phone, address: address, city: city, province: province, postCode: postCode,
-        country: country, resume: resume, motivationStatement: motivationStatement
+        CNIC: CNIC, firstName: firstName, lastName: lastName, email: email,
+        phone: phone, city: city, resume: resume, motivationStatement: motivationStatement
     });
 
     // Check validation
@@ -56,9 +62,9 @@ router.post('/apply', (req, res) => {
             })
         } else if (applicant) {
             // if applicant already exists with no changes
-            if (applicant.firstName === firstName && applicant.middleName === middleName && applicant.lastName === lastName &&
-                applicant.email === email && applicant.phone === phone && applicant.address === address && applicant.city === city &&
-                applicant.province === province && applicant.postCode === postCode && applicant.country === country && applicant.isEmployee === isEmployee) {
+            if (applicant.firstName === firstName && applicant.lastName === lastName &&
+                applicant.email === email && applicant.phone === phone && applicant.city === city &&
+                applicant.isEmployee === isEmployee) {
 
                 // create jobApplication with existing applicant
                 newApplication = new applicationModel({
@@ -82,10 +88,9 @@ router.post('/apply', (req, res) => {
                     }
                 })
             } else {
-
                 applicantModel.findOneAndUpdate({ CNIC: CNIC }, {
-                    CNIC: CNIC, firstName: firstName, middleName: middleName, lastName: lastName,
-                    email: email, phone: phone, address: address, city: city, province: province, postCode: postCode, country: country, __v: __v + 1
+                    CNIC: CNIC, firstName: firstName, lastName: lastName,
+                    email: email, phone: phone, city: city
                 }, { new: true }, (updateAppicantErr, updateApplicantDoc) => {
                     if (updateAppicantErr) {
                         return res.status(200).json({
@@ -120,99 +125,146 @@ router.post('/apply', (req, res) => {
 
             }
         }
+        else {
+            let applicantNew = new applicantModel({
+                "CNIC": CNIC,
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "phone": phone,
+                "city": city,
+                "isEmployee": isEmployee
+            })
+            applicantNew.save().then((saved) => {
+                newApplication = new applicationModel({
+                    applicantID: saved._id,
+                    resume: resume,
+                    motivationStatement: motivationStatement,
+                    jobRef: jobRef
+                })
+                newApplication.save((newApplicationErr, newApplicationDoc) => {
+                    if (newApplicationErr) {
+                        return res.status(200).json({
+                            error: true,
+                            message: newApplicationErr.message
+                        })
+                    } else {
+                        return res.status(200).json({
+                            error: false,
+                            message: 'Your application has been submitted.',
+                            application: newApplicationDoc,
+                            applicant: saved
+
+                        })
+                    }
+                })
+            }).catch((saveErr) => {
+                return res.status(200).json({
+                    error: true,
+                    message: saveErr.message
+                })
+            })
+        }
     })
 })
 
+
 router.post('/shortlistApplication', (req, res) => {
 
-    let { isAdmin, id, name } = verifyToken(req.body.token)
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
 
-    if (!isAdmin) {
-        return res.status(200).json({
-            error: true,
-            message: 'Access denied. Limited for admin(s).'
-        })
-    } else {
-        let applicationID = req.body.applicationID
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicationID = req.body.applicationID
+            applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: id } }, { new: true }, (err, doc) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: false,
+                        message: "Application shorlisted successfully.",
+                        data: doc
+                    })
+                }
+            })
+        }
 
-        applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: id } }, { new: true }, (err, doc) => {
-            if (err) {
-                return res.status(200).json({
-                    error: true,
-                    message: err.message
-                })
-            } else {
-                return res.status(200).json({
-                    error: false,
-                    message: "Application shorlisted successfully.",
-                    data: doc
-                })
-            }
-        })
-    }
+    })
 
 })
+
 
 router.post('/rejectApplication', (req, res) => {
 
-    let { isAdmin, id, name } = verifyToken(req.body.token)
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
 
-    if (!isAdmin) {
-        return res.status(200).json({
-            error: true,
-            message: 'Access denied. Limited for admin(s).'
-        })
-    } else {
-        let applicationID = req.body.applicationID
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicationID = req.body.applicationID
+            applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: id } }, { new: true }, (err, doc) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: false,
+                        message: "Application rejected successfully.",
+                        data: doc
+                    })
+                }
+            })
+        }
 
-        applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: id } }, { new: true }, (err, doc) => {
-            if (err) {
-                return res.status(200).json({
-                    error: true,
-                    message: err.message
-                })
-            } else {
-                return res.status(200).json({
-                    error: false,
-                    message: "Application rejected successfully.",
-                    data: doc
-                })
-            }
-        })
-    }
-
+    })
 })
 
 router.post('/markContacted', (req, res) => {
-
-    let { isAdmin, id, name } = verifyToken(req.body.token)
-
-    if (!isAdmin) {
-        return res.status(200).json({
-            error: true,
-            message: 'Access denied. Limited for admin(s).'
-        })
-    } else {
-        let applicationID = req.body.applicationID
-
-        applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: id } }, { new: true }, (err, doc) => {
-            if (err) {
-                return res.status(200).json({
-                    error: true,
-                    message: err.message
-                })
-            } else {
-                return res.status(200).json({
-                    error: false,
-                    message: "Applicant marked contacted successfully.",
-                    data: doc
-                })
-            }
-        })
-    }
-
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicationID = req.body.applicationID
+            applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: id } }, { new: true }, (err, doc) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: false,
+                        message: "Application marked as contacted successfully.",
+                        data: doc
+                    })
+                }
+            })
+        }
+    })
 })
-
-
 
 module.exports = router

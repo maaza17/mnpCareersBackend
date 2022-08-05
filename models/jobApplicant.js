@@ -9,11 +9,6 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    middleName: {
-        type: String,
-        required: true,
-        default: ''
-    },
     lastName: {
         type: String,
         required: true
@@ -26,30 +21,14 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String,
-        required: true
-    },
     city: {
         type: String,
         required: true
     },
-    province: {
-        type: String,
-        required: true
-    },
-    postCode: {
-        type: String,
-        required: true
-    },
-    country: {
-        type: String,
-        required: true
-    },
     isEmployee: {
-        type:{ isTrue: Boolean, employeeID: String },
+        type: { isTrue: Boolean, employeeID: String },
         required: true,
-        default: { isTrue: false, employeeID:'' }
+        default: { isTrue: false, employeeID: null }
     }
 })
 
