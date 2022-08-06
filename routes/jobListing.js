@@ -277,15 +277,15 @@ router.post('/closeJob', (req, res) => {
     })
 })
 
-// router.post('/haris', (req, res) => {
-//     jobModel.find({}).remove((err, docs) => {
-//         return res.status(200).json({
-//             error: false,
-//             docs: docs,
-//             message: 'Done!'
-//         })
-//     });
-// })
+router.post('/haris', (req, res) => {
+    applicantModel.find({}, (err, docs) => {
+        return res.status(200).json({
+            error: false,
+            docs: docs,
+            message: 'Done!'
+        })
+    });
+})
 
 
 router.post('/getApplicationsByJob', (req, res) => {
@@ -340,6 +340,48 @@ router.post('/getApplicationsByJob', (req, res) => {
 })
 
 
+
+router.post('/getManyApplicants', (req, res) => {
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicantIDs = req.body.applicantIDs
+            applicantModel.find({ _id: { $in: applicantIDs } }, (err, docs) => {
+                console.log(docs)
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else if (docs.length === 0) {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'No applicants found.',
+                        data: []
+                    })
+                } else if (docs.length > 0) {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'Here you go good sir.',
+                        data: docs
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: true,
+                        message: 'An unexpected error occured. Please try again',
+                    })
+                }
+            })
+        }
+    })
+})
 
 
 module.exports = router
