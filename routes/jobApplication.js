@@ -252,7 +252,7 @@ router.post('/markContacted', (req, res) => {
         if (!isAdmin) {
             return res.status(200).json({
                 error: true,
-                message: 'Access denied. Limited for admin(s).'
+                message: 'Access denied. Limited for Admin(s).'
             })
         } else {
             let applicationID = req.body.applicationID
