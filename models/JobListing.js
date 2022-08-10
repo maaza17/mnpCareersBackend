@@ -45,6 +45,11 @@ jobSchema = new mongoose.Schema({
         required: false,
         default: 'Active'
     },
+    forEmployees: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     dateCreated: {
         type: Date,
         required: true,
