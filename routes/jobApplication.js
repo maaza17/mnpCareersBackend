@@ -185,17 +185,22 @@ router.post('/shortlistApplication', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicantModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: id } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: id } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
                         message: err.message
                     })
-                } else {
+                } else if(doc) {
                     return res.status(200).json({
                         error: false,
                         message: "Application shorlisted successfully.",
                         data: doc
+                    })
+                }else{
+                    return res.status(200).json({
+                        error: true,
+                        message: "An unexpected error occured please try again.",
                     })
                 }
             })
