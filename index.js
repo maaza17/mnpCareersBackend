@@ -8,7 +8,7 @@ const jobListing = require('./routes/jobListing')
 const jobApplication = require('./routes/jobApplication')
 const adminRoute = require('./routes/admin/admin')
 const employeeRoute = require('./routes/employee')
-// const dropboxRoute = require('./routes/dropbox')
+const dropboxRoute = require('./routes/dropbox')
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb'}));
@@ -44,7 +44,7 @@ app.use('/api/admin', adminRoute)
 app.use('/api/listings', jobListing)
 app.use('/api/applications', jobApplication)
 app.use('/api/employees', employeeRoute)
-// app.use('/api/dropbox', dropboxRoute)
+app.use('/api/dropbox', dropboxRoute)
 
 const port = process.env.PORT || 7000;
 
