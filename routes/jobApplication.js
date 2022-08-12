@@ -63,56 +63,37 @@ router.post('/apply', (req, res) => {
                 message: applicantErr.message
             })
         } else if (applicant) {
-            // if applicant already exists with no changes
-            if (applicant.firstName == firstName && applicant.lastName == lastName &&
-                applicant.email == email && applicant.phone == phone && applicant.city == city &&
-                applicant.isEmployee == isEmployee) {
+            applicationModel.find({ $and: [{ applicantID: applicant._id }, { jobRef: jobRef }] }, (err, doc) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: "An unexpected error has occured. Please try again"
+                    })
+                }
+                else if (doc) {
+                    return res.status(200).json({
+                        error: true,
+                        message: "You have already applied for this job opening"
+                    })
+                }
+                else {
+                    // if applicant already exists with no changes
+                    if (applicant.firstName == firstName && applicant.lastName == lastName &&
+                        applicant.email == email && applicant.phone == phone && applicant.city == city &&
+                        applicant.isEmployee == isEmployee) {
 
-                // create jobApplication with existing applicant
-                newApplication = new applicationModel({
-                    applicantID: applicant._id,
-                    resume: resume,
-                    motivationStatement: motivationStatement,
-                    jobRef: jobRef
-                })
-                newApplication.save((newApplicationErr, newApplicationDoc) => {
-                    if (newApplicationErr) {
-                        return res.status(200).json({
-                            error: true,
-                            message: newApplicationErr.message
-                        })
-                    } else {
-                        return res.status(200).json({
-                            error: false,
-                            message: 'Your application has been submitted.',
-                            data: newApplicationDoc
-                        })
-                    }
-                })
-            } else {
-                applicantModel.findOneAndUpdate({ CNIC: CNIC }, {
-                    CNIC: CNIC, firstName: firstName, lastName: lastName,
-                    email: email, phone: phone, city: city
-                }, { new: true }, (updateAppicantErr, updateApplicantDoc) => {
-                    if (updateAppicantErr) {
-                        return res.status(200).json({
-                            error: true,
-                            message: updateAppicantErr.message
-                        })
-                    } else {
-                        // create job application with updated applicant object
+                        // create jobApplication with existing applicant
                         newApplication = new applicationModel({
-                            applicantID: updateApplicantDoc._id,
+                            applicantID: applicant._id,
                             resume: resume,
                             motivationStatement: motivationStatement,
                             jobRef: jobRef
                         })
-
                         newApplication.save((newApplicationErr, newApplicationDoc) => {
                             if (newApplicationErr) {
                                 return res.status(200).json({
                                     error: true,
-                                    message: newApplicationErr.message
+                                    message: "An unexpected error has occured. Please try again"
                                 })
                             } else {
                                 return res.status(200).json({
@@ -122,10 +103,45 @@ router.post('/apply', (req, res) => {
                                 })
                             }
                         })
-                    }
-                })
+                    } else {
+                        applicantModel.findOneAndUpdate({ CNIC: CNIC }, {
+                            CNIC: CNIC, firstName: firstName, lastName: lastName,
+                            email: email, phone: phone, city: city
+                        }, { new: true }, (updateAppicantErr, updateApplicantDoc) => {
+                            if (updateAppicantErr) {
+                                return res.status(200).json({
+                                    error: true,
+                                    message: "An unexpected error has occured. Please try again"
+                                })
+                            } else {
+                                // create job application with updated applicant object
+                                newApplication = new applicationModel({
+                                    applicantID: updateApplicantDoc._id,
+                                    resume: resume,
+                                    motivationStatement: motivationStatement,
+                                    jobRef: jobRef
+                                })
 
-            }
+                                newApplication.save((newApplicationErr, newApplicationDoc) => {
+                                    if (newApplicationErr) {
+                                        return res.status(200).json({
+                                            error: true,
+                                            message: "An unexpected error has occured. Please try again"
+                                        })
+                                    } else {
+                                        return res.status(200).json({
+                                            error: false,
+                                            message: 'Your application has been submitted.',
+                                            data: newApplicationDoc
+                                        })
+                                    }
+                                })
+                            }
+                        })
+
+                    }
+                }
+            })
         }
         else {
             let applicantNew = new applicantModel({
@@ -148,7 +164,7 @@ router.post('/apply', (req, res) => {
                     if (newApplicationErr) {
                         return res.status(200).json({
                             error: true,
-                            message: newApplicationErr.message
+                            message: "An unexpected error has occured. Please try again"
                         })
                     } else {
                         return res.status(200).json({
@@ -163,7 +179,7 @@ router.post('/apply', (req, res) => {
             }).catch((saveErr) => {
                 return res.status(200).json({
                     error: true,
-                    message: saveErr.message
+                    message: "An unexpected error has occured. Please try again"
                 })
             })
         }
