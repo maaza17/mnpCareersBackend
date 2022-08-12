@@ -28,13 +28,13 @@ function verifyToken(token, callback) {
 router.post('/apply', (req, res) => {
 
     let isEmployee = null;
-    if (req.body.isEmployee === undefined || req.body.isEmployee === {}) {
+    if (!req.body.isEmployee || req.body.isEmployee === null || req.body.isEmployee === undefined || req.body.isEmployee === {}) {
         isEmployee = {
             "isTrue": false,
             "employeeID": null
         }
-    }else{
-        isEmployee=req.body.isEmployee;
+    } else {
+        isEmployee = req.body.isEmployee;
     }
 
     let {
@@ -191,13 +191,13 @@ router.post('/shortlistApplication', (req, res) => {
                         error: true,
                         message: err.message
                     })
-                } else if(doc) {
+                } else if (doc) {
                     return res.status(200).json({
                         error: false,
                         message: "Application shorlisted successfully.",
                         data: doc
                     })
-                }else{
+                } else {
                     return res.status(200).json({
                         error: true,
                         message: "An unexpected error occured please try again.",
@@ -289,13 +289,13 @@ router.post('getOtherApplicationsByApplicant', (req, res) => {
             let thisApplicantID = req.body.thisApplicantID
             let thisApplicationID = req.body.thisApplicationID
 
-            applicationModel.find({_id: {$ne: thisApplicationID}, applicantID: thisApplicantID}, (err, docs) => {
-                if(err){
+            applicationModel.find({ _id: { $ne: thisApplicationID }, applicantID: thisApplicantID }, (err, docs) => {
+                if (err) {
                     return res.status(200).json({
                         error: true,
                         message: err.message
                     })
-                } else{
+                } else {
                     return res.status(200).json({
                         error: false,
                         message: String(docs.length) + ' applications found for this applicant!',
@@ -321,13 +321,13 @@ router.post('/getApplicant', (req, res) => {
             })
         } else {
             let thisApplicantID = req.body.thisApplicantID
-            applicantModel.findOne({_id: thisApplicantID}, (err, doc) => {
-                if(err){
+            applicantModel.findOne({ _id: thisApplicantID }, (err, doc) => {
+                if (err) {
                     return res.status(200).json({
                         error: true,
                         message: err.message
                     })
-                } else{
+                } else {
                     return res.status(200).json({
                         error: false,
                         message: 'Applicant found!',
