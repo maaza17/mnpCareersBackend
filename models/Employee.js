@@ -1,32 +1,32 @@
 const mongoose = require('mongoose')
 
 employeeSchema = new mongoose.Schema({
-    empID: {
+    empid: {
         type: String,
         required: true,
         unique: true
     },
-    empName: {
+    empname: {
         type: String,
         required: true
     },
-    empDesignation: {
+    empdesignation: {
         type: String,
         required: true
     },
-    empGrade: {
+    empgrade: {
         type: String,
         required: true
     },
-    empDivision: {
+    empdivision: {
         type: String,
         required: true
     },
-    empLineManagerID: {
+    emplinemanagerid: {
         type: String,
         required: true
     },
-    empLineManagerName: {
+    emplinemanagername: {
         type: String,
         required: true
     }

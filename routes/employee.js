@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
+const jwt = require("jsonwebtoken")
 const employeeModel = require('../models/Employee')
 
 
@@ -28,7 +29,7 @@ router.post('/isEmployee', (req, res) => {
 
     let empID = req.body.empID
 
-    employeeModel.findOne({empID: empID}, {_id: true, empName: true, empID: true}, (err, employee) => {
+    employeeModel.findOne({empid: empID}, {_id: true, empname: true, empid: true}, (err, employee) => {
         if(err){
             return res.status(200).json({
                 error: true,
@@ -62,9 +63,9 @@ router.post('/getEmployeeDetails', (req, res) => {
                 message: 'Access denied. Limited for admin(s).'
             })
         } else {
-            let empObjID = req.body.empID
+            let empID = req.body.empID
 
-            employeeModel.findOne({_id: empObjID}, (err, employee) => {
+            employeeModel.findOne({_id: empID}, (err, employee) => {
                 if(err){
                     return res.status(200).json({
                         error: true,
@@ -80,6 +81,47 @@ router.post('/getEmployeeDetails', (req, res) => {
                         error: false,
                         message: "Employee found succesfully.",
                         data: employee
+                    })
+                }
+            })
+        }
+    })
+})
+
+router.post('/bulkRewriteEmployees', (req, res) => {
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let empArray = req.body.empArray
+
+            employeeModel.deleteMany({})
+            .then(() => {
+                employeeModel.insertMany(empArray, (err, docs) => {
+                    if(err){
+                        return res.status(200).json({
+                            error: true,
+                            message: 'An unexpected error occured. Please try again later.'
+                        })
+                    } else {
+                        return res.status(200).json({
+                            error: false,
+                            message: 'Employee list successfully updated.'
+                        })
+                    }
+                })
+            })
+            .catch((delErr) => {
+                if(delErr){
+                    return res.status(200).json({
+                        error: true,
+                        message: 'An unexpected error occured. Please try again later.'
                     })
                 }
             })
