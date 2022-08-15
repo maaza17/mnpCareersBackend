@@ -18,6 +18,10 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    city:{
+        type: String,
+        required: true
+    },
     motivationStatement: {
         type: String,
         required: true
@@ -35,7 +39,7 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         enum: ['New', 'Reviewed', 'Contacted', 'Rejected'],
         required: true,
-        default: 'New' 
+        default: 'New'
     }
 })
 
