@@ -6,7 +6,7 @@ const dropboxSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    name: {
+    fullname: {
         type: String,
         required: true
     },
@@ -18,7 +18,7 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    message: {
+    motivationStatement: {
         type: String,
         required: true
     },
