@@ -20,7 +20,7 @@ const validateDropboxInput = (data) => {
     
     
     // Check name
-    if(validator.isEmpty(data.name)){
+    if(validator.isEmpty(data.fullname)){
         errors.push('Name is required!')
     }
 
