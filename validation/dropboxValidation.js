@@ -6,11 +6,12 @@ const validateDropboxInput = (data) => {
     let errors =[]
 
     data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
-    data.name = !isEmpty(data.name) ? data.name : ''
+    data.fullname = !isEmpty(data.name) ? data.name : ''
     data.email = !isEmpty(data.email) ? data.email : ''
     data.phone = !isEmpty(data.phone) ? data.phone : ''
     data.resume = !isEmpty(data.resume) ? data.resume : ''
-    // data.message = !isEmpty(data.message) ? data.message : ''
+    data.city = !isEmpty(data.city) ? data.city : ''
+    data.motivationStatement = !isEmpty(data.motivationStatement) ? data.motivationStatement : ''
 
     // Check CNIC
     if(validator.isEmpty(data.CNIC)){
