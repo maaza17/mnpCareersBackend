@@ -27,10 +27,7 @@ function verifyToken(token, callback) {
 }
 
 router.post('/getAllJobs', (req, res) => {
-    let locations = req.body.locations || ['Karachi', 'Lahore', 'Islamabad']
-    let departments = req.body.departments || ['D1', 'D2', 'D3', 'D4']
-
-    jobModel.find({ jobLocation: { $in: locations }, jobDepartment: { $in: departments } }, (err, docs) => {
+    jobModel.find({}, (err, docs) => {
         if (err) {
             return res.status(200).json({
                 error: true,
@@ -49,10 +46,7 @@ router.post('/getAllJobs', (req, res) => {
 
 
 router.post('/getActiveJobs', (req, res) => {
-    let locations = req.body.locations || ['Karachi', 'Lahore', 'Islamabad']
-    let departments = req.body.departments || ['D1', 'D2', 'D3', 'D4']
-
-    jobModel.find({ jobStatus: 'Active', jobLocation: { $in: locations }, jobDepartment: { $in: departments } }, (err, docs) => {
+    jobModel.find({ jobStatus: 'Active'}, (err, docs) => {
         if (err) {
             return res.status(200).json({
                 error: true,
@@ -71,10 +65,7 @@ router.post('/getActiveJobs', (req, res) => {
 
 
 router.post('/getClosedJobs', (req, res) => {
-    let locations = req.body.locations || ['Karachi', 'Lahore', 'Islamabad']
-    let departments = req.body.departments || ['D1', 'D2', 'D3', 'D4']
-
-    jobModel.find({ jobStatus: 'Closed', jobLocation: { $in: locations }, jobDepartment: { $in: departments } }, (err, docs) => {
+    jobModel.find({ jobStatus: 'Closed'}, (err, docs) => {
         if (err) {
             return res.status(200).json({
                 error: true,
