@@ -11,8 +11,11 @@ const employeeRoute = require('./routes/employee')
 const dropboxRoute = require('./routes/dropbox')
 
 const app = express();
-app.use(express.urlencoded({ extended: true, limit: '50mb'}));
-app.use(express.json());
+
+app.use(bodyParser.json({limit: 20000000}));
+
+// app.use(express.urlencoded({ extended: true, limit: '50mb'}));
+app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
