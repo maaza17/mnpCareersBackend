@@ -4,7 +4,7 @@ const isEmpty = require('is-empty')
 const validateDropboxInput = (data) => {
 
     let errors =[]
-    console.log(data);
+
     data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
     data.fullname = !isEmpty(data.fullname) ? data.fullname : ''
     data.email = !isEmpty(data.email) ? data.email : ''

@@ -7,6 +7,7 @@ const employeeModel = require('../models/Employee')
 function verifyToken(token, callback) {
     jwt.verify(token, process.env.ENCRYPTION_SECRET, (err, decoded) => {
         if (err) {
+            console.log(err)
             return callback({
                 isAdmin: false,
                 err: err,
@@ -89,6 +90,7 @@ router.post('/getEmployeeDetails', (req, res) => {
 })
 
 router.post('/bulkRewriteEmployees', (req, res) => {
+    console.log(req.body.token)
     verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
         const id = item.id;

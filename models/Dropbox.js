@@ -35,7 +35,7 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         enum: ['New', 'Reviewed', 'Contacted', 'Rejected'],
         required: true,
-        default: 'New'
+        default: 'New' 
     }
 })
 
