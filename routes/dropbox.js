@@ -125,56 +125,6 @@ router.post('/getdropboxapplicationbyid', (req, res) => {
     })
 })
 
-router.post('/markdropboxapplicationcontacted', (req, res) => {
-    verifyToken(req.body.token, (item) => {
-        const isAdmin = item.isAdmin;
-        const id = item.id;
-        const name = item.name;
-
-        if (!isAdmin) {
-            return res.status(200).json({
-                error: true,
-                message: 'Access denied. Limited for admin(s).'
-            })
-        } else {
-            let applicationID = req.body.applicationID
-
-            dropboxModel.findOne({_id: applicationID}, (err, doc) => {
-                if(err){
-                    return res.status(200).json({
-                        error: true,
-                        message: 'An unexpected error occured. Please try again later.'
-                    })
-                } else {
-                    if(doc.status == 'Contacted'){
-                        return res.status(200).json({
-                            error: false,
-                            message: 'Application already marked as contacted.',
-                            data: doc
-                        })
-                    } else{
-                        doc.status = 'Contacted'
-                        doc.save((saveErr, saveDoc) => {
-                            if(saveErr){
-                                return res.status(200).json({
-                                    error: true,
-                                    message: 'An unexpected error occured. Please try again later.'
-                                })
-                            } else {
-                                return res.status(200).json({
-                                    error: false,
-                                    message: 'Application marked contacted successfully.',
-                                    data: saveDoc
-                                })
-                            }
-                        })
-                    }
-                }
-            })
-        }
-    })
-})
-
 router.post('/rejectdropboxapplication', (req, res) => {
     verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;

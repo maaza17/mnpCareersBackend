@@ -279,11 +279,15 @@ router.post('/closeJob', (req, res) => {
 
 // router.post('/haris', (req, res) => {
 //     applicantModel.find({}).remove((err, docs) => {
-//         return res.status(200).json({
-//             error: false,
-//             docs: docs,
-//             message: 'Done!'
-//         })
+//         jobModel.find({}).remove((err, docs) => {
+//             applicationModel.find({}).remove((err, docs) => {
+//                 return res.status(200).json({
+//                     error: false,
+//                     docs: docs,
+//                     message: 'Done!'
+//                 })
+//             });
+//         });
 //     });
 // })
 
