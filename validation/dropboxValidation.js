@@ -6,7 +6,7 @@ const validateDropboxInput = (data) => {
     let errors =[]
     console.log(data);
     data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
-    data.fullname = !isEmpty(data.name) ? data.name : ''
+    data.fullname = !isEmpty(data.fullname) ? data.fullname : ''
     data.email = !isEmpty(data.email) ? data.email : ''
     data.phone = !isEmpty(data.phone) ? data.phone : ''
     data.resume = !isEmpty(data.resume) ? data.resume : ''
