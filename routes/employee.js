@@ -102,13 +102,15 @@ router.post('/bulkRewriteEmployees', (req, res) => {
             })
         } else {
             let empArray = req.body.empArray
-
+            console.log(empArray.length)
+            console.log(empArray[5])
             employeeModel.deleteMany({})
             .then(() => {
                 employeeModel.insertMany(empArray, (err, docs) => {
                     if(err){
                         return res.status(200).json({
                             error: true,
+                            text:err,
                             message: 'An unexpected error occured. Please try again later.'
                         })
                     } else {
