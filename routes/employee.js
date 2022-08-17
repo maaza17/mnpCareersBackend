@@ -30,7 +30,7 @@ router.post('/isEmployee', (req, res) => {
 
     let empID = req.body.empID
 
-    employeeModel.findOne({empid: empID}, {_id: true, empname: true, empid: true}, (err, employee) => {
+    employeeModel.findOne({empid: empID}, {_id: true, empname: true, empdesignation: true, empid: true}, (err, employee) => {
         if(err){
             return res.status(200).json({
                 error: true,
