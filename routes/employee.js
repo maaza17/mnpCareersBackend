@@ -38,7 +38,7 @@ router.post('/isEmployee', (req, res) => {
             })
         } else if(!employee){
             return res.status(200).json({
-                error: false,
+                error: true,
                 message: "Employee does not exist."
             })
         } else {
