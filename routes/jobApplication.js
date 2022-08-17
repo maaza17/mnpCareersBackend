@@ -38,11 +38,11 @@ router.post('/apply', (req, res) => {
     }
 
     let {
-        CNIC, firstName, lastName, email, phone, city, resume, motivationStatement, jobRef
+        CNIC, fullName, previousDesignation, email, phone, city, resume, motivationStatement, jobRef
     } = req.body
 
     const { errors, isValid } = validateJobApplication({
-        CNIC: CNIC, firstName: firstName, lastName: lastName, email: email,
+        CNIC: CNIC, fullName: fullName, previousDesignation: previousDesignation, email: email,
         phone: phone, city: city, resume: resume, motivationStatement: motivationStatement
     });
 
@@ -78,7 +78,7 @@ router.post('/apply', (req, res) => {
                 }
                 else {
                     // if applicant already exists with no changes
-                    if (applicant.firstName == firstName && applicant.lastName == lastName &&
+                    if (applicant.fullName == fullName && applicant.previousDesignation == previousDesignation &&
                         applicant.email == email && applicant.phone == phone && applicant.city == city &&
                         applicant.isEmployee == isEmployee) {
 
@@ -105,7 +105,7 @@ router.post('/apply', (req, res) => {
                         })
                     } else {
                         applicantModel.findOneAndUpdate({ CNIC: CNIC }, {
-                            CNIC: CNIC, firstName: firstName, lastName: lastName,
+                            CNIC: CNIC, fullName: fullName, previousDesignation: previousDesignation,
                             email: email, phone: phone, city: city
                         }, { new: true }, (updateAppicantErr, updateApplicantDoc) => {
                             if (updateAppicantErr) {
@@ -146,8 +146,8 @@ router.post('/apply', (req, res) => {
         else {
             let applicantNew = new applicantModel({
                 "CNIC": CNIC,
-                "firstName": firstName,
-                "lastName": lastName,
+                "fullName": fullName,
+                "previousDesignation": previousDesignation,
                 "email": email,
                 "phone": phone,
                 "city": city,

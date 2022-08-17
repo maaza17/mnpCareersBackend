@@ -6,8 +6,8 @@ const validateJobApplication = (data) => {
     let errors =[]
 
     data.CNIC = !isEmpty(data.CNIC) ? data.CNIC : ''
-    data.firstName = !isEmpty(data.firstName) ? data.firstName : ''
-    data.lastName = !isEmpty(data.lastName) ? data.lastName : ''
+    data.fullName = !isEmpty(data.fullName) ? data.fullName : ''
+    data.previousDesignation = !isEmpty(data.previousDesignation) ? data.previousDesignation : ''
     data.email = !isEmpty(data.email) ? data.email : ''
     data.phone = !isEmpty(data.phone) ? data.phone : ''
     // data.address = !isEmpty(data.address) ? data.address : ''
@@ -24,14 +24,14 @@ const validateJobApplication = (data) => {
     }
     
     
-    // Check firstName
-    if(validator.isEmpty(data.firstName)){
-        errors.push('First name is required!')
+    // Check fullName
+    if(validator.isEmpty(data.fullName)){
+        errors.push('Name is required!')
     }
 
-    // Check lastName
-    if(validator.isEmpty(data.lastName)){
-        errors.push('Last name is required!')
+    // Check previousDesignation
+    if(validator.isEmpty(data.previousDesignation)){
+        errors.push('Designation is required!')
     }
 
     // check Email

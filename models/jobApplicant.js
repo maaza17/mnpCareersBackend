@@ -5,11 +5,11 @@ const applicantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    firstName: {
+    fullName: {
         type: String,
         required: true
     },
-    lastName: {
+    previousDesignation: {
         type: String,
         required: true
     },
@@ -26,9 +26,9 @@ const applicantSchema = new mongoose.Schema({
         required: true
     },
     isEmployee: {
-        type: { 
+        type: {
             isTrue: Boolean,
-            employeeID: {type: mongoose.Schema.ObjectId, ref: 'employee'}
+            employeeID: { type: mongoose.Schema.ObjectId, ref: 'employee' }
         },
         required: true,
         default: { isTrue: false, employeeID: null }
