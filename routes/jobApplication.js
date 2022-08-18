@@ -226,6 +226,43 @@ router.post('/shortlistApplication', (req, res) => {
 
 })
 
+router.post('/markhired', (req, res) => {
+
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicationID = req.body.applicationID
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Hired', by: id } }, { new: true }, (err, doc) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    })
+                } else if (doc) {
+                    return res.status(200).json({
+                        error: false,
+                        message: "Application marked as hired successfully.",
+                        data: doc
+                    })
+                } else {
+                    return res.status(200).json({
+                        error: true,
+                        message: "An unexpected error occured please try again.",
+                    })
+                }
+            })
+        }
+    })
+})
+
 
 router.post('/rejectApplication', (req, res) => {
 

@@ -22,9 +22,14 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    motivationStatement: {
+    designation: {
         type: String,
         required: true
+    },
+    areaOfIterest: {
+        type: String,
+        required: true,
+        // enum: [...]
     },
     resume: {
         type: String,
@@ -37,7 +42,7 @@ const dropboxSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['New', 'Contacted', 'Rejected'],
+        enum: ['New', 'Contacted', 'Rejected', 'Hired'],
         required: true,
         default: 'New'
     }

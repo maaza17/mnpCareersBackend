@@ -226,4 +226,55 @@ router.post('/markdropboxapplicationcontacted', (req, res) => {
     })
 })
 
+
+router.post('/markdropboxapplicationhired', (req, res) => {
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            })
+        } else {
+            let applicationID = req.body.applicationID
+
+            dropboxModel.findOne({_id: applicationID}, (err, doc) => {
+                if(err){
+                    return res.status(200).json({
+                        error: true,
+                        message: 'An unexpected error occured. Please try again later.'
+                    })
+                } else {
+                    if(doc.status == 'Hired'){
+                        return res.status(200).json({
+                            error: false,
+                            message: 'Application already marked as hired.',
+                            data: doc
+                        })
+                    } else{
+                        doc.status = 'Hired'
+                        doc.save((saveErr, saveDoc) => {
+                            if(saveErr){
+                                return res.status(200).json({
+                                    error: true,
+                                    message: 'An unexpected error occured. Please try again later.'
+                                })
+                            } else {
+                                return res.status(200).json({
+                                    error: false,
+                                    message: 'Application marked as hired successfully.',
+                                    data: saveDoc
+                                })
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    })
+})
+
 module.exports = router
