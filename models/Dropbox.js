@@ -26,7 +26,7 @@ const dropboxSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    areaOfIterest: {
+    areaOfInterest: {
         type: String,
         required: true,
         // enum: [...]
