@@ -116,7 +116,7 @@ router.post('/addNewJob', (req, res) => {
             })
         }
     })
-}) 
+})
 
 router.post('/editJobListing', (req, res) => {
 
@@ -131,19 +131,19 @@ router.post('/editJobListing', (req, res) => {
             })
         } else {
             if (
-                jobTitle === null || jobTitle === undefined ||
-                jobDepartment === null || jobDepartment === undefined ||
-                jobCity === null || jobCity === undefined ||
-                jobType === null || jobType === undefined ||
-                reqExperience === null || reqExperience === undefined ||
-                jobDescription === null || jobDescription === undefined ||
-                jobRequirements === null || jobRequirements === undefined ||
-                jobIncentives === null || jobIncentives === undefined ||
-                jobSalary === null || jobSalary === undefined ||
-                jobStatus === null || jobStatus === undefined ||
-                forEmployees === null || forEmployees === undefined ||
-                dateCreated === null || dateCreated === undefined ||
-                createdBy === null || createdBy === undefined) {
+                req.body.updatedListing.jobTitle === null || req.body.updatedListing.jobTitle === undefined ||
+                req.body.updatedListing.jobDepartment === null || req.body.updatedListing.jobDepartment === undefined ||
+                req.body.updatedListing.jobCity === null || req.body.updatedListing.jobCity === undefined ||
+                req.body.updatedListing.jobType === null || req.body.updatedListing.jobType === undefined ||
+                req.body.updatedListing.reqExperience === null || req.body.updatedListing.reqExperience === undefined ||
+                req.body.updatedListing.jobDescription === null || req.body.updatedListing.jobDescription === undefined ||
+                req.body.updatedListing.jobRequirements === null || req.body.updatedListing.jobRequirements === undefined ||
+                req.body.updatedListing.jobIncentives === null || req.body.updatedListing.jobIncentives === undefined ||
+                req.body.updatedListing.jobSalary === null || req.body.updatedListing.jobSalary === undefined ||
+                req.body.updatedListing.jobStatus === null || req.body.updatedListing.jobStatus === undefined ||
+                req.body.updatedListing.forEmployees === null || req.body.updatedListing.forEmployees === undefined ||
+                req.body.updatedListing.dateCreated === null || req.body.updatedListing.dateCreated === undefined ||
+                req.body.updatedListing.createdBy === null || req.body.updatedListing.createdBy === undefined) {
                 return res.status(200).json({
                     error: true,
                     message: "Null values found. Please send all the required data."
