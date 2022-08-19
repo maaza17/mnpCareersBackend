@@ -46,7 +46,7 @@ router.post('/getAllJobs', (req, res) => {
 
 
 router.post('/getActiveJobs', (req, res) => {
-    jobModel.find({ jobStatus: 'Active'}, (err, docs) => {
+    jobModel.find({ jobStatus: 'Active' }, (err, docs) => {
         if (err) {
             return res.status(200).json({
                 error: true,
@@ -65,7 +65,7 @@ router.post('/getActiveJobs', (req, res) => {
 
 
 router.post('/getClosedJobs', (req, res) => {
-    jobModel.find({ jobStatus: 'Closed'}, (err, docs) => {
+    jobModel.find({ jobStatus: 'Closed' }, (err, docs) => {
         if (err) {
             return res.status(200).json({
                 error: true,
@@ -130,8 +130,27 @@ router.post('/editJobListing', (req, res) => {
                 message: 'Access denied. Limited for admin(s).'
             })
         } else {
+            if (
+                jobTitle === null || jobTitle === undefined ||
+                jobDepartment === null || jobDepartment === undefined ||
+                jobCity === null || jobCity === undefined ||
+                jobType === null || jobType === undefined ||
+                reqExperience === null || reqExperience === undefined ||
+                jobDescription === null || jobDescription === undefined ||
+                jobRequirements === null || jobRequirements === undefined ||
+                jobIncentives === null || jobIncentives === undefined ||
+                jobSalary === null || jobSalary === undefined ||
+                jobStatus === null || jobStatus === undefined ||
+                forEmployees === null || forEmployees === undefined ||
+                dateCreated === null || dateCreated === undefined ||
+                createdBy === null || createdBy === undefined) {
+                return res.status(200).json({
+                    error: true,
+                    message: "Null values found. Please send all the required data."
+                })
+            }
             let jobID = req.body.jobID
-            let { jobTitle, jobDepartment, jobLocation, jobType, reqExperience, jobDescription, jobRequirements, jobIncentives, jobStatus } = req.body.updatedListing
+            let { jobTitle, jobDepartment, jobCity, jobType, reqExperience, jobDescription, jobRequirements, jobIncentives, jobSalary, jobStatus, forEmployees, dateCreated, createdBy } = req.body.updatedListing
 
             jobModel.findOne({ _id: jobID }, (err, doc) => {
                 if (err) {
@@ -140,16 +159,19 @@ router.post('/editJobListing', (req, res) => {
                         message: err.message
                     })
                 } else {
-                    doc.jobTitle = jobTitle
-                    doc.jobDepartment = jobDepartment
-                    doc.jobLocation = jobLocation
-                    doc.jobType = jobType
-                    doc.reqExperience = reqExperience
-                    doc.jobDescription = jobDescription
-                    doc.jobRequirements = jobRequirements
-                    doc.jobIncentives = jobIncentives
-                    doc.__v = doc.__v + 1
-
+                    doc.jobTitle = jobTitle;
+                    doc.jobDepartment = jobDepartment;
+                    doc.jobCity = jobCity;
+                    doc.jobType = jobType;
+                    doc.reqExperience = reqExperience;
+                    doc.jobDescription = jobDescription;
+                    doc.jobRequirements = jobRequirements;
+                    doc.jobIncentives = jobIncentives;
+                    doc.jobSalary = jobSalary;
+                    doc.jobStatus = jobStatus;
+                    doc.forEmployees = forEmployees;
+                    doc.dateCreated = dateCreated;
+                    doc.createdBy = createdBy;
                     doc.save((newErr, newDoc) => {
                         if (newErr) {
                             return res.status(200).json({
@@ -304,7 +326,7 @@ router.post('/getApplicationsByJob', (req, res) => {
                 } else if (docs.length === 0) {
                     return res.status(200).json({
                         error: false,
-                        message: 'No applications recieved yet.',
+                        message: 'No applications received yet.',
                         data: []
                     })
                 } else if (docs.length > 0) {
