@@ -26,6 +26,11 @@ const jobApplicationSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'jobListing',
         required: true
+    },
+    dateApplied: {
+        type: Date,
+        required: true,
+        default: Date.now()
     }
 })
 

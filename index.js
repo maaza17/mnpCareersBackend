@@ -9,6 +9,7 @@ const jobApplication = require('./routes/jobApplication')
 const adminRoute = require('./routes/admin/admin')
 const employeeRoute = require('./routes/employee')
 const dropboxRoute = require('./routes/dropbox')
+const statsRoute = require('./routes/stats')
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api/listings', jobListing)
 app.use('/api/applications', jobApplication)
 app.use('/api/employees', employeeRoute)
 app.use('/api/dropbox', dropboxRoute)
+app.use('/api/stats', statsRoute)
 
 const port = process.env.PORT || 7000;
 
