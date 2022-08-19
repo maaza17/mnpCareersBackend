@@ -116,7 +116,7 @@ router.post('/addNewJob', (req, res) => {
             })
         }
     })
-})
+}) 
 
 router.post('/editJobListing', (req, res) => {
 
