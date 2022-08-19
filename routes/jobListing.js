@@ -217,11 +217,11 @@ router.post('/openJob', (req, res) => {
                         message: err.message
                     })
                 } else {
-                    console.log(doc)
                     if (doc.jobStatus === "Active") {
                         return res.status(200).json({
                             error: false,
-                            message: "This job is already Activated"
+                            message: "This job is already Activated",
+                            data: doc,
                         })
                     }
                     else {
@@ -266,11 +266,11 @@ router.post('/closeJob', (req, res) => {
                         message: err.message
                     })
                 } else {
-                    console.log(doc)
                     if (doc.jobStatus === "Closed") {
                         return res.status(200).json({
                             error: false,
-                            message: "This job is already Closed"
+                            message: "This job is already Closed",
+                            data: doc
                         })
                     }
                     else {
