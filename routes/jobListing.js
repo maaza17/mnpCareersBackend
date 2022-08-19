@@ -158,7 +158,7 @@ router.post('/editJobListing', (req, res) => {
                         error: true,
                         message: err.message
                     })
-                } else {
+                } else if (doc) {
                     doc.jobTitle = jobTitle;
                     doc.jobDepartment = jobDepartment;
                     doc.jobCity = jobCity;
@@ -185,6 +185,12 @@ router.post('/editJobListing', (req, res) => {
                                 data: newDoc
                             })
                         }
+                    })
+                }
+                else {
+                    return res.status(200).json({
+                        error: true,
+                        message: 'No Job Found'
                     })
                 }
             })
