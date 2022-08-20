@@ -29,7 +29,7 @@ const jobApplicationSchema = new mongoose.Schema({
     },
     dateApplied: {
         type: Date,
-        required: true,
+        required: false,
         default: Date.now()
     }
 })

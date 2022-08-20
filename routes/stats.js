@@ -125,7 +125,7 @@ router.post('/getstats', (req, res) => {
                             numHiredDropboxApps = dropboxAppArray.filter(app => app.status === 'Hired').length
 
                             // Job Listing Stats
-                            jobModel.find({jobStatus: 'Open'}, {_id: true}, (jobErr, jobDocs) => {
+                            jobModel.find({jobStatus: 'Active'}, {_id: true}, (jobErr, jobDocs) => {
                                 if(jobErr){
                                     return res.status(200).json({
                                         error: true,
@@ -133,7 +133,6 @@ router.post('/getstats', (req, res) => {
                                     })
                                 } else{
                                     numOpenJobs = jobDocs.length
-
                                     // Employee stats
                                     employeeModel.find({}, {_id: true}, (empErr, empDocs) => {
                                         if(empErr){
