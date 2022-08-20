@@ -54,7 +54,7 @@ router.post('/getstats', (req, res) => {
     var numHiredDropboxApps = null
 
     // No. of Open jobs
-    var numOpenJobs=null
+    var numOpenJobs = null
 
     // No. of Employees
     var numEmployees = null
@@ -81,16 +81,16 @@ router.post('/getstats', (req, res) => {
                 message: 'Access denied. Limited for admin(s).'
             })
         } else {
-            
+
             // application stats
-            applicationModel.find({}, {_id: true, applicationStatus: true, dateApplied: true}, (applicationsErr, applicationsDocs) => {
-                if(applicationsErr){
+            applicationModel.find({}, { _id: true, applicationStatus: true, dateApplied: true }, (applicationsErr, applicationsDocs) => {
+                if (applicationsErr) {
                     return res.status(200).json({
                         error: true,
                         message: 'An unexpected error occured while retrieving application stats. Please try again later.'
                     })
-                } else{
-                    appArray = applicationsDocs
+                } else {
+                    appArray = applicationsDocs.sort((a, b) => new Date(a.dateApplied).getTime() - new Date(b.dateApplied).getTime());
                     // No. of Total job apps
                     numTotalJobApps = appArray.length
                     // No. of New job apps
@@ -105,14 +105,14 @@ router.post('/getstats', (req, res) => {
                     numHiredJobApps = appArray.filter(app => app.applicationStatus.status === 'Hired').length
 
                     // dropbox stats
-                    dropboxModel.find({}, {_id: true, status: true, dateCreated: true}, (dropErr, dropDocs) => {
-                        if(dropErr){
+                    dropboxModel.find({}, { _id: true, status: true, dateCreated: true }, (dropErr, dropDocs) => {
+                        if (dropErr) {
                             return res.status(200).json({
                                 error: true,
                                 message: 'An unexpected error occured while retrieving dropbox stats. Please try again later.'
                             })
-                        } else{
-                            dropboxAppArray = dropDocs
+                        } else {
+                            dropboxAppArray = dropDocs.sort((a, b) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime());
                             // No. of Total Dropbox apps
                             numTotalDropboxApps = dropboxAppArray.length
                             // No. of New Dropbox apps
@@ -125,32 +125,32 @@ router.post('/getstats', (req, res) => {
                             numHiredDropboxApps = dropboxAppArray.filter(app => app.status === 'Hired').length
 
                             // Job Listing Stats
-                            jobModel.find({jobStatus: 'Active'}, {_id: true}, (jobErr, jobDocs) => {
-                                if(jobErr){
+                            jobModel.find({ jobStatus: 'Active' }, { _id: true }, (jobErr, jobDocs) => {
+                                if (jobErr) {
                                     return res.status(200).json({
                                         error: true,
                                         message: 'An unexpected error occured while retrieving job stats. Please try again later.'
                                     })
-                                } else{
+                                } else {
                                     numOpenJobs = jobDocs.length
                                     // Employee stats
-                                    employeeModel.find({}, {_id: true}, (empErr, empDocs) => {
-                                        if(empErr){
+                                    employeeModel.find({}, { _id: true }, (empErr, empDocs) => {
+                                        if (empErr) {
                                             return res.status(200).json({
                                                 error: true,
                                                 message: 'An unexpected error occured while retrieving employee stats. Please try again later.'
                                             })
-                                        } else{
+                                        } else {
                                             numEmployees = empDocs.length
 
                                             // Applicant stats
-                                            applicantModel.find({}, {_id: true, isEmployee: true}, (applicantErr, applicantDocs) => {
-                                                if(applicantErr){
+                                            applicantModel.find({}, { _id: true, isEmployee: true }, (applicantErr, applicantDocs) => {
+                                                if (applicantErr) {
                                                     return res.status(200).json({
                                                         error: true,
                                                         message: 'An unexpected error occured while retrieving applicant stats. Please try again later.'
                                                     })
-                                                } else{
+                                                } else {
                                                     numApplicants = applicantDocs.length
                                                     numEmpApplicants = applicantDocs.filter(app => app.isEmployee.isTrue === true).length
 
@@ -181,7 +181,7 @@ router.post('/getstats', (req, res) => {
                                                             numEmpApplicants: numEmpApplicants,
 
                                                             appArray: appArray,
-                                                            
+
                                                             dropboxAppArray: dropboxAppArray,
 
                                                         }
