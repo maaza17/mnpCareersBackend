@@ -201,7 +201,7 @@ router.post('/shortlistApplication', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: id } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -240,7 +240,7 @@ router.post('/markhired', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Hired', by: id } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Hired', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -278,7 +278,7 @@ router.post('/rejectApplication', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: id } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -309,7 +309,7 @@ router.post('/markContacted', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: id } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
