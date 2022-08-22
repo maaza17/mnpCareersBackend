@@ -146,14 +146,14 @@ router.post('/rejectdropboxapplication', (req, res) => {
                         message: 'An unexpected error occured. Please try again later.'
                     })
                 } else {
-                    if(doc.status == 'Rejected'){
+                    if(doc.applicationStatus.status == 'Rejected'){
                         return res.status(200).json({
                             error: false,
                             message: 'Application already marked as rejected.',
                             data: doc
                         })
                     } else{
-                        doc.status = 'Rejected'
+                        doc.applicationStatus.status = 'Rejected'
                         doc.save((saveErr, saveDoc) => {
                             if(saveErr){
                                 return res.status(200).json({
@@ -197,14 +197,14 @@ router.post('/markdropboxapplicationcontacted', (req, res) => {
                         message: 'An unexpected error occured. Please try again later.'
                     })
                 } else {
-                    if(doc.status == 'Contacted'){
+                    if(doc.applicationStatus.status == 'Contacted'){
                         return res.status(200).json({
                             error: false,
                             message: 'Application already marked as contacted.',
                             data: doc
                         })
                     } else{
-                        doc.status = 'Contacted'
+                        doc.applicationStatus.status = 'Contacted'
                         doc.save((saveErr, saveDoc) => {
                             if(saveErr){
                                 return res.status(200).json({
@@ -248,14 +248,14 @@ router.post('/markdropboxapplicationhired', (req, res) => {
                         message: 'An unexpected error occured. Please try again later.'
                     })
                 } else {
-                    if(doc.status == 'Hired'){
+                    if(doc.applicationStatus.status == 'Hired'){
                         return res.status(200).json({
                             error: false,
                             message: 'Application already marked as hired.',
                             data: doc
                         })
                     } else{
-                        doc.status = 'Hired'
+                        doc.applicationStatus.status = 'Hired'
                         doc.save((saveErr, saveDoc) => {
                             if(saveErr){
                                 return res.status(200).json({
