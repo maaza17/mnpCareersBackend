@@ -10,7 +10,7 @@ jobSchema = new mongoose.Schema({
         required: true
     },
     jobCity: {
-        type: String,
+        type: [String],
         required: true
     },
     jobType: {

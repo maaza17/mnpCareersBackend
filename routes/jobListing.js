@@ -296,21 +296,6 @@ router.post('/closeJob', (req, res) => {
     })
 })
 
-// router.post('/haris', (req, res) => {
-//     applicantModel.find({}).remove((err, docs) => {
-//         jobModel.find({}).remove((err, docs) => {
-//             applicationModel.find({}).remove((err, docs) => {
-//                 return res.status(200).json({
-//                     error: false,
-//                     docs: docs,
-//                     message: 'Done!'
-//                 })
-//             });
-//         });
-//     });
-// })
-
-
 router.post('/getApplicationsByJob', (req, res) => {
     verifyToken(req.body.token, (item) => {
         const isAdmin = item.isAdmin;
@@ -398,7 +383,7 @@ router.post('/getManyApplicants', (req, res) => {
                 } else {
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again',
+                        message: 'An unexpected error occurred. Please try again',
                     })
                 }
             })
