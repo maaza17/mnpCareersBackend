@@ -25,7 +25,7 @@ router.post('/loginAdmin', (req, res) => {
         if (err) {
             return res.status(200).json({
                 error: true,
-                message: "An unexpected error occured. Please try again"
+                message: "An unexpected error occurred. Please try again"
             })
         } else if (admin) {
             // compare passwords and token generation here
@@ -45,7 +45,7 @@ router.post('/loginAdmin', (req, res) => {
                             console.log(signErr)
                             return res.status.json({
                                 error: true,
-                                message: "An unexpected error occured. Please try again"
+                                message: "An unexpected error occurred. Please try again"
                             })
                         } else {
                             console.log('admin login success')

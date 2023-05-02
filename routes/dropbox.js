@@ -49,7 +49,7 @@ router.post('/applyviadropbox', (req, res) => {
                 } else {
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again later.'
+                        message: 'An unexpected error occurred. Please try again later.'
                     })
                 }
             } else {
@@ -111,7 +111,7 @@ router.post('/getdropboxapplicationbyid', (req, res) => {
                 if(err){
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again later.'
+                        message: 'An unexpected error occurred. Please try again later.'
                     })
                 } else {
                     return res.status(200).json({
@@ -143,7 +143,7 @@ router.post('/rejectdropboxapplication', (req, res) => {
                 if(err){
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again later.'
+                        message: 'An unexpected error occurred. Please try again later.'
                     })
                 } else {
                     if(doc.status == 'Rejected'){
@@ -158,7 +158,7 @@ router.post('/rejectdropboxapplication', (req, res) => {
                             if(saveErr){
                                 return res.status(200).json({
                                     error: true,
-                                    message: 'An unexpected error occured. Please try again later.'
+                                    message: 'An unexpected error occurred. Please try again later.'
                                 })
                             } else {
                                 return res.status(200).json({
@@ -194,7 +194,7 @@ router.post('/markdropboxapplicationcontacted', (req, res) => {
                 if(err){
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again later.'
+                        message: 'An unexpected error occurred. Please try again later.'
                     })
                 } else {
                     // console.log(doc);
@@ -210,7 +210,7 @@ router.post('/markdropboxapplicationcontacted', (req, res) => {
                             if(saveErr){
                                 return res.status(200).json({
                                     error: true,
-                                    message: 'An unexpected error occured. Please try again later.'
+                                    message: 'An unexpected error occurred. Please try again later.'
                                 })
                             } else {
                                 return res.status(200).json({
@@ -246,7 +246,7 @@ router.post('/markdropboxapplicationhired', (req, res) => {
                 if(err){
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured. Please try again later.'
+                        message: 'An unexpected error occurred. Please try again later.'
                     })
                 } else {
                     if(doc.status == 'Hired'){
@@ -261,7 +261,7 @@ router.post('/markdropboxapplicationhired', (req, res) => {
                             if(saveErr){
                                 return res.status(200).json({
                                     error: true,
-                                    message: 'An unexpected error occured. Please try again later.'
+                                    message: 'An unexpected error occurred. Please try again later.'
                                 })
                             } else {
                                 return res.status(200).json({

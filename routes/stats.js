@@ -87,7 +87,7 @@ router.post('/getstats', (req, res) => {
                 if (applicationsErr) {
                     return res.status(200).json({
                         error: true,
-                        message: 'An unexpected error occured while retrieving application stats. Please try again later.'
+                        message: 'An unexpected error occurred while retrieving application stats. Please try again later.'
                     })
                 } else {
                     appArray = applicationsDocs.sort((a, b) => new Date(a.dateApplied).getTime() - new Date(b.dateApplied).getTime());
@@ -109,7 +109,7 @@ router.post('/getstats', (req, res) => {
                         if (dropErr) {
                             return res.status(200).json({
                                 error: true,
-                                message: 'An unexpected error occured while retrieving dropbox stats. Please try again later.'
+                                message: 'An unexpected error occurred while retrieving dropbox stats. Please try again later.'
                             })
                         } else {
                             dropboxAppArray = dropDocs.sort((a, b) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime());
@@ -129,7 +129,7 @@ router.post('/getstats', (req, res) => {
                                 if (jobErr) {
                                     return res.status(200).json({
                                         error: true,
-                                        message: 'An unexpected error occured while retrieving job stats. Please try again later.'
+                                        message: 'An unexpected error occurred while retrieving job stats. Please try again later.'
                                     })
                                 } else {
                                     numOpenJobs = jobDocs.length
@@ -138,7 +138,7 @@ router.post('/getstats', (req, res) => {
                                         if (empErr) {
                                             return res.status(200).json({
                                                 error: true,
-                                                message: 'An unexpected error occured while retrieving employee stats. Please try again later.'
+                                                message: 'An unexpected error occurred while retrieving employee stats. Please try again later.'
                                             })
                                         } else {
                                             numEmployees = empDocs.length
@@ -148,7 +148,7 @@ router.post('/getstats', (req, res) => {
                                                 if (applicantErr) {
                                                     return res.status(200).json({
                                                         error: true,
-                                                        message: 'An unexpected error occured while retrieving applicant stats. Please try again later.'
+                                                        message: 'An unexpected error occurred while retrieving applicant stats. Please try again later.'
                                                     })
                                                 } else {
                                                     numApplicants = applicantDocs.length

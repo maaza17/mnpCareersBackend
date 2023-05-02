@@ -56,6 +56,11 @@ router.post('/apply', (req, res) => {
         });
     }
 
+    console.log({
+        CNIC: CNIC, fullName: fullName, previousDesignation: previousDesignation, email: email,
+        phone: phone, city: city, resume: resume, motivationStatement: motivationStatement
+    })
+
     applicantModel.findOne({ CNIC: CNIC }, (applicantErr, applicant) => {
         if (applicantErr) {
             return res.status(200).json({
@@ -67,10 +72,10 @@ router.post('/apply', (req, res) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
-                        message: "An unexpected error has occured. Please try again"
+                        message: "An unexpected error has occurred. Please try again"
                     })
                 }
-                else if (doc) {
+                else if (doc.length > 0) {
                     return res.status(200).json({
                         error: true,
                         message: "You have already applied for this job opening"
@@ -93,7 +98,7 @@ router.post('/apply', (req, res) => {
                             if (newApplicationErr) {
                                 return res.status(200).json({
                                     error: true,
-                                    message: "An unexpected error has occured. Please try again"
+                                    message: "An unexpected error has occurred. Please try again"
                                 })
                             } else {
                                 return res.status(200).json({
@@ -111,7 +116,7 @@ router.post('/apply', (req, res) => {
                             if (updateAppicantErr) {
                                 return res.status(200).json({
                                     error: true,
-                                    message: "An unexpected error has occured. Please try again"
+                                    message: "An unexpected error has occurred. Please try again"
                                 })
                             } else {
                                 // create job application with updated applicant object
@@ -126,7 +131,7 @@ router.post('/apply', (req, res) => {
                                     if (newApplicationErr) {
                                         return res.status(200).json({
                                             error: true,
-                                            message: "An unexpected error has occured. Please try again"
+                                            message: "An unexpected error has occurred. Please try again"
                                         })
                                     } else {
                                         return res.status(200).json({
@@ -164,7 +169,7 @@ router.post('/apply', (req, res) => {
                     if (newApplicationErr) {
                         return res.status(200).json({
                             error: true,
-                            message: "An unexpected error has occured. Please try again"
+                            message: "An unexpected error has occurred. Please try again"
                         })
                     } else {
                         return res.status(200).json({
@@ -179,7 +184,7 @@ router.post('/apply', (req, res) => {
             }).catch((saveErr) => {
                 return res.status(200).json({
                     error: true,
-                    message: "An unexpected error has occured. Please try again"
+                    message: "An unexpected error has occurred. Please try again"
                 })
             })
         }
@@ -201,7 +206,7 @@ router.post('/shortlistApplication', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Shortlisted', by: { id: id, name: name } } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -216,7 +221,7 @@ router.post('/shortlistApplication', (req, res) => {
                 } else {
                     return res.status(200).json({
                         error: true,
-                        message: "An unexpected error occured please try again.",
+                        message: "An unexpected error occurred please try again.",
                     })
                 }
             })
@@ -240,7 +245,7 @@ router.post('/markhired', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Hired', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Hired', by: { id: id, name: name } } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -255,7 +260,7 @@ router.post('/markhired', (req, res) => {
                 } else {
                     return res.status(200).json({
                         error: true,
-                        message: "An unexpected error occured please try again.",
+                        message: "An unexpected error occurred please try again.",
                     })
                 }
             })
@@ -278,7 +283,7 @@ router.post('/rejectApplication', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Rejected', by: { id: id, name: name } } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
@@ -309,7 +314,7 @@ router.post('/markContacted', (req, res) => {
             })
         } else {
             let applicationID = req.body.applicationID
-            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: {id: id, name: name} } }, { new: true }, (err, doc) => {
+            applicationModel.findOneAndUpdate({ _id: applicationID }, { applicationStatus: { status: 'Contacted', by: { id: id, name: name } } }, { new: true }, (err, doc) => {
                 if (err) {
                     return res.status(200).json({
                         error: true,
