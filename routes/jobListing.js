@@ -347,6 +347,55 @@ router.post('/getApplicationsByJob', (req, res) => {
     })
 })
 
+router.post('/getApplicationsByJobv2', async (req, res) => {
+    verifyToken(req.body.token, (item) => {
+        const isAdmin = item.isAdmin;
+        const id = item.id;
+        const name = item.name;
+        if (!isAdmin) {
+            return res.status(200).json({
+                error: true,
+                message: 'Access denied. Limited for admin(s).'
+            });
+        } else {
+            const jobID = req.body.jobID;
+            applicationModel.aggregate([
+                {
+                    $match: { jobRef: jobID }
+                },
+                {
+                    $lookup: {
+                        from: 'applicantModel', // Replace with the actual collection name of applicantModel
+                        localField: 'applicantID',
+                        foreignField: '_id',
+                        as: 'applicantObj'
+                    }
+                }
+            ]).exec((err, docs) => {
+                if (err) {
+                    return res.status(200).json({
+                        error: true,
+                        message: err.message
+                    });
+                } else if (docs.length === 0) {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'No applications received yet.',
+                        data: []
+                    });
+                } else {
+                    return res.status(200).json({
+                        error: false,
+                        message: 'Applications for job opening found.',
+                        data: docs
+                    });
+                }
+            });
+        }
+    });
+});
+
+
 
 
 router.post('/getManyApplicants', (req, res) => {
