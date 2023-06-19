@@ -358,39 +358,33 @@ router.post('/getApplicationsByJobv2', async (req, res) => {
                 message: 'Access denied. Limited for admin(s).'
             });
         } else {
-            const jobID = req.body.jobID;
+            let jobID = req.body.jobID;
+            console.log(jobID)
             applicationModel.aggregate([
                 {
-                    $match: { jobRef: jobID }
+                    $match: { jobRef: mongoose.Types.ObjectId(jobID) }
                 },
                 {
                     $lookup: {
-                        from: 'applicantModel', // Replace with the actual collection name of applicantModel
+                        from: 'applicants',
                         localField: 'applicantID',
                         foreignField: '_id',
                         as: 'applicantObj'
                     }
                 }
-            ]).exec((err, docs) => {
-                if (err) {
-                    return res.status(200).json({
-                        error: true,
-                        message: err.message
-                    });
-                } else if (docs.length === 0) {
-                    return res.status(200).json({
-                        error: false,
-                        message: 'No applications received yet.',
-                        data: []
-                    });
-                } else {
-                    return res.status(200).json({
-                        error: false,
-                        message: 'Applications for job opening found.',
-                        data: docs
-                    });
-                }
-            });
+            ]).then((docs) => {
+                console.log(docs.length)
+                return res.status(200).json({
+                    error: false,
+                    message: "Applications for job opening found.",
+                    data: docs
+                })
+            }).catch((err) => {
+                return res.status(200).json({
+                    error: true,
+                    message: err.message
+                })
+            })
         }
     });
 });
