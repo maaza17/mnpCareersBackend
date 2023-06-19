@@ -359,7 +359,6 @@ router.post('/getApplicationsByJobv2', async (req, res) => {
             });
         } else {
             let jobID = req.body.jobID;
-            console.log(jobID)
             applicationModel.aggregate([
                 {
                     $match: { jobRef: mongoose.Types.ObjectId(jobID) }
@@ -373,7 +372,6 @@ router.post('/getApplicationsByJobv2', async (req, res) => {
                     }
                 }
             ]).then((docs) => {
-                console.log(docs.length)
                 return res.status(200).json({
                     error: false,
                     message: "Applications for job opening found.",
